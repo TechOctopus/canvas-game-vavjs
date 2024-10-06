@@ -24,7 +24,7 @@ Pridajte tlacidlo debug a nastavitelne (daju sa vypnut a zapnut) debug vypisy, k
 | 2.  | x    | pridanie \<canvas> do HTML suboru pouzitim JS funkcii                                                                                                  | 1      |
 | 3.  | x    | dynamicke pouzitie obrazkov z externych zdrojov (http...) a ich vykreslovanie ako policok pomocou JS funkcii (u obrazkov musite udat zdroj a licenciu) | 1      |
 | 4.  | x    | hra je vykreslovana a animovana pomocou JS funkcii                                                                                                     | 1      |
-| 5.  | ?    | pridanie zmeny ovladania klavesnicou                                                                                                                   | 1      |
+| 5.  | x    | pridanie zmeny ovladania klavesnicou                                                                                                                   | 1      |
 | 6.  | x    | pridanie funkcnych tlacidiel na zapnutie a vypnutie hudobnej stopy na pozadi (licencia a zdroj ako u obrazkov)                                         | 1      |
 | 7.  | x    | pridanie zobrazeni a aktualneho skore a rychlosti                                                                                                      | 1      |
 | 8.  | ?    | pridanie tlacidla reset, ktore resetuje stav hry (reset vykonat cez event listener, hra je znovu hratelna, reset nie je refresh)                       | 1      |

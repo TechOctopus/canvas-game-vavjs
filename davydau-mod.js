@@ -20,14 +20,16 @@ function initCanvas() {
 
 initCanvas();
 
+// displayPoint = () => {};
+
 displayPoint = function (x, y, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE);
 };
 
-// deletePoint = function (x, y) {
-//   displayPoint(x, y, 'white');
-// };
+deletePoint = function (x, y) {
+  displayPoint(x, y, 'white');
+};
 
 // # pridanie debug vypisov v debugovacom mode
 let debug = false;
@@ -44,7 +46,7 @@ function log(text) {
   if (debug) console.log('DEBUG:', text);
 }
 
-// TODO: # pridanie zmeny ovladania klavesnicou
+// # pridanie zmeny ovladania klavesnicou
 document.addEventListener('keydown', (event) => {
   switch (event.code) {
     case 'KeyA': {
@@ -63,7 +65,7 @@ document.addEventListener('keydown', (event) => {
 // TODO: # pridanie tlacidla reset, ktore resetuje stav hry
 
 const resetGameButton = document.createElement('button');
-resetGameButton.innerText = 'Restart game';
+resetGameButton.innerText = 'Reset game';
 resetGameButton.addEventListener('click', () => {
   endGame();
   speed = 1000;
@@ -71,14 +73,14 @@ resetGameButton.addEventListener('click', () => {
 });
 titleElement.appendChild(resetGameButton);
 
-// #sound
-
-// Source: https://opengameart.org/content/magic-space
-// License(s): CC0
+// # sound
 
 const soundtrack = document.createElement('audio');
+// Source: https://opengameart.org/content/magic-space
+// License(s): CC0
 soundtrack.src =
   'https://opengameart.org/sites/default/files/audio_preview/magic%20space_0.mp3.ogg';
+soundtrack.loop = true;
 document.body.appendChild(soundtrack);
 
 let isPlaying = false;
