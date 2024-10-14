@@ -20,15 +20,9 @@ function initCanvas() {
 
 initCanvas();
 
-// displayPoint = () => {};
-
 displayPoint = function (x, y, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE);
-};
-
-deletePoint = function (x, y) {
-  displayPoint(x, y, 'white');
 };
 
 // # pridanie debug vypisov v debugovacom mode
@@ -62,18 +56,27 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
-// TODO: # pridanie tlacidla reset, ktore resetuje stav hry
+// # pridanie tlacidla reset, ktore resetuje stav hry
 
 const resetGameButton = document.createElement('button');
 resetGameButton.innerText = 'Reset game';
 resetGameButton.addEventListener('click', () => {
-  endGame();
+  deleteMissiles();
+  missiles = [];
+
+  lasers.forEach((laser) => {
+    displayPoint(laser.x, laser.y, 'white');
+  });
+
+  lasers = [];
   speed = 1000;
+
+  endGame();
   window.dispatchEvent(new Event('start'));
 });
 titleElement.appendChild(resetGameButton);
 
-// # sound
+// # Pridanie funkcnych tlacidiel na zapnutie a vypnutie hudobnej stopy na pozadi (licencia a zdroj ako u obrazkov)
 
 const soundtrack = document.createElement('audio');
 // Source: https://opengameart.org/content/magic-space
@@ -83,17 +86,21 @@ soundtrack.src =
 soundtrack.loop = true;
 document.body.appendChild(soundtrack);
 
-let isPlaying = false;
-const soundtrackButton = document.createElement('button');
-soundtrackButton.innerText = 'ON Audio';
+const soundtrackButtonON = document.createElement('button');
+const soundtrackButtonOFF = document.createElement('button');
 
-soundtrackButton.addEventListener('click', () => {
-  isPlaying = !isPlaying;
-  soundtrackButton.innerText = isPlaying ? 'OFF Audio' : 'ON Audio';
-  isPlaying ? soundtrack.play() : soundtrack.pause();
+soundtrackButtonON.innerText = 'ON Audio';
+soundtrackButtonON.addEventListener('click', () => {
+  soundtrack.play();
 });
 
-titleElement.appendChild(soundtrackButton);
+soundtrackButtonOFF.innerText = 'OFF Audio';
+soundtrackButtonOFF.addEventListener('click', () => {
+  soundtrack.pause();
+});
+
+titleElement.appendChild(soundtrackButtonON);
+titleElement.appendChild(soundtrackButtonOFF);
 
 // # pridanie zobrazeni a aktualneho skore a rychlosti
 
@@ -105,7 +112,7 @@ titleElement.appendChild(scoreElement);
 const oldIncrementScore = incrementScore;
 incrementScore = (...args) => {
   scoreElement.innerText = `score: ${score}`;
-  log(`score: ${speed}`);
+  log(`score: ${score}`);
   oldIncrementScore(...args);
 };
 
@@ -175,7 +182,7 @@ Promise.all(
   displayShip();
 
   deleteShip = function () {
-    // with margin
+    // with margin 2
     ctx.clearRect(
       xShip * CELLSIZE - 2 * CELLSIZE,
       yShip * CELLSIZE - 2 * CELLSIZE,
@@ -184,7 +191,7 @@ Promise.all(
     );
   };
 
-  // TODO: THIS IS MODIFICATED FUNCTION FROM: http://creativejs.com/2012/01/day-10-drawing-rotated-images-into-canvas/
+  // THIS IS MODIFICATED FUNCTION FROM: http://creativejs.com/2012/01/day-10-drawing-rotated-images-into-canvas/
   function drawRotatedImage(image, dx, dy, dWidth, dHeight, angle) {
     ctx.save();
     ctx.translate(dx, dy);
@@ -202,17 +209,6 @@ Promise.all(
     missiles.forEach((missile) => {
       ctx.drawImage(
         asteroidImage,
-        missile.x * CELLSIZE,
-        missile.y * CELLSIZE,
-        CELLSIZE,
-        CELLSIZE,
-      );
-    });
-  };
-
-  deleteMissiles = function () {
-    missiles.forEach((missile) => {
-      ctx.clearRect(
         missile.x * CELLSIZE,
         missile.y * CELLSIZE,
         CELLSIZE,
