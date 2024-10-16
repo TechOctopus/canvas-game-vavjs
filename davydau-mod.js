@@ -168,13 +168,16 @@ Promise.all(
 
   const spaceShipImage = images[i++];
 
+  const shipCells = 3;
+  const shipMargin = 2;
+
   displayShip = function () {
     drawRotatedImage(
       spaceShipImage,
       xShip * CELLSIZE - CELLSIZE,
       yShip * CELLSIZE - CELLSIZE,
-      3 * CELLSIZE,
-      3 * CELLSIZE,
+      shipCells * CELLSIZE,
+      shipCells * CELLSIZE,
       (rShip % 8) * 45,
     );
   };
@@ -184,20 +187,20 @@ Promise.all(
   deleteShip = function () {
     // with margin 2
     ctx.clearRect(
-      xShip * CELLSIZE - 2 * CELLSIZE,
-      yShip * CELLSIZE - 2 * CELLSIZE,
-      5 * CELLSIZE,
-      5 * CELLSIZE,
+      xShip * CELLSIZE - shipMargin * CELLSIZE,
+      yShip * CELLSIZE - shipMargin * CELLSIZE,
+      (shipCells + shipMargin) * CELLSIZE,
+      (shipCells + shipMargin) * CELLSIZE,
     );
   };
 
-  // THIS IS MODIFICATED FUNCTION FROM: http://creativejs.com/2012/01/day-10-drawing-rotated-images-into-canvas/
-  function drawRotatedImage(image, dx, dy, dWidth, dHeight, angle) {
+  // THIS IS MODIFICATED FUNCTION FROM: https://stackoverflow.com/a/43927355
+  function drawRotatedImage(image, x, y, width, height, angle) {
     ctx.save();
-    ctx.translate(dx, dy);
-    ctx.translate(dWidth / 2, dHeight / 2);
+    ctx.translate(x + width / 2, y + height / 2);
     ctx.rotate((angle * Math.PI) / 180);
-    ctx.drawImage(image, -(dWidth / 2), -(dHeight / 2), dWidth, dHeight);
+    ctx.translate(-x - width / 2, -y - height / 2);
+    ctx.drawImage(image, x, y, width, height);
     ctx.restore();
   }
 
